@@ -29,7 +29,7 @@ charname <- c("AdultAbsBA", "AdultAbsDen")
 @
 
 
-<<eval=TRUE, echo=FALSE>>==
+<<eval=FALSE, echo=FALSE>>==
 ## bbbpipo
 store <- processTestPlot("BBBPIPO", filelocs[1], 0,
                   charactername=charname[1],

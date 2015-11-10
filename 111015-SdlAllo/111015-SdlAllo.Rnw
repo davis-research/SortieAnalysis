@@ -3,13 +3,13 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 
-\title{Adjusting Individual Parameters}
+\title{Addding Seedling Allometry Values}
 \author{Samantha L. Davis}
 
 \maketitle
 
 \section{Summary}
-This run was the only run in October. It was a severe reduction of seedling/sapling mortality to see if we can make the seedling/sapling numbers match more closely without completely screwing up adult growth and reproduction. 
+This run is the first run in November. I kept the reduction of seed/ling mortality from the 103015 run, and added in a different allometric parameter for seedlings. The parameter is the slope of the relationship between diam10 and seedling height. The default parameter that the original program set was 0.03, when I ran ours, I actually found a value of about 0.22 across species. It didn't vary enough (plus or minus 0.02) for me to think that the differences were appreciable. That is the only change in this run.
 
 <<echo=FALSE>>=
 ## load library
@@ -17,7 +17,7 @@ library(SortieIO)
 library(outliers)
 library(disperseR)
 
-parName <- "NoSdlDeath"
+parName <- "SdlAllo"
 filelocs <- c("outfiles/orig")
 filemeans <- paste(filelocs, "/means", sep="")
 charname <- c("SdlAbsDen", "SaplAbsDen", "AdultAbsBA", "AdultAbsDen")
@@ -453,6 +453,8 @@ Now, how are the individual species doing?
 
 \section{Conclusions}
 
-So it seems lsike reducing / removing mortality rates from seedlings and saplings can "rescue" the lines and make them much, much closer to ideal (1) than otherwise. So in essence, I've answered the question. Dispersal as it is currently modeled is only giving off enough seeds for survivors, with no room for seeds to die off. So, I can simplify like this or try harder to model death and dispersal actually. 
+So, in comparing these last two runs, there are some definite differences. The seedling density statistic is back down from where it was, but I think that's because the seedlings changed into saplings rather quickly.So what if we did the new one and dropped the old one? Kept the higher growth but lost the mortality?
+
+We should also do a run to increase STR to actually fix, not hide, the seed problem. 
 
 \end{document}
