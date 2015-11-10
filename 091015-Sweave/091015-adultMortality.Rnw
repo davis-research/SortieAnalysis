@@ -1,0 +1,669 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{Adult Mortality: Finding Ideal Parameters}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This paper explores the range of values and accuracy of the \textit{Stochastic Mortality} parameter in SORTIE-ND for adult trees in our validation plots. For each set of parameters in the 081815c runs, I varied them by 10\% to test whether adjusting the parameters would increase the overall model fit. This will also give us an idea of how much swing these parameters have within the simulations. 
+
+For each species/step combination, I'll need to evaluate whether the parameters improve or hurt the model fit. I'll be using a general linear model that regresses the expected values (the ``realPlots'' means) against the simulated values of the model. The model improves as the slope approaches 1. If realPlots data are on the y-axis, then points or lines that fall above the ``1'' demarkation line are \textit{underpredicting} the true value; and points or lines that fall below the ``1'' demarkation line are \textit{overpredicting} the true value.
+
+We'll need to view all of the data -- data for the 90, 100, and 110 percent values of the parameters -- before we can conduct the analysis. 
+
+View the Rnw document to view the code; otherwise, I am only printing outputs to save some space and make this document more readable.
+
+<<echo=FALSE>>=
+## load library
+library(SortieIO)
+library(outliers)
+library(disperseR)
+
+parName <- "mortalityAdult"
+filelocs <- c("outfiles/am9", "outfiles/c", "outfiles/am11" )
+filemeans <- paste(filelocs, "/means", sep="")
+charname <- c("AdultAbsBA", "AdultAbsDen")
+
+@
+
+
+<<eval=TRUE, echo=FALSE>>==
+## bbbpipo
+store <- processTestPlot("BBBPIPO", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/BBBPIPO-AdultAbsBA.csv", sep=""),
+                 numsubplots = 3, subplotid=1)
+
+store <- processTestPlot("BBBPIPO", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/BBBPIPO-AdultAbsDen.csv", sep=""),
+                 numsubplots = 3, subplotid=1)
+
+## emridge
+store <- processTestPlot("EMRIDGE", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/EMRIDGE-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("EMRIDGE", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/EMRIDGE-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## frpije
+store <- processTestPlot("FRPIJE", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/FRPIJE-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("FRPIJE", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/FRPIJE-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## pgabma
+store <- processTestPlot("PGABMA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/PGABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("PGABMA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/PGABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## poflabma
+store <- processTestPlot("POFLABMA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/POFLABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("POFLABMA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/POFLABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## sftrabma
+store <- processTestPlot("SFTRABMA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/SFTRABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SFTRABMA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/SFTRABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## supila
+store <- processTestPlot("SUPILA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/SUPILA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SUPILA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/SUPILA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+rm("store")
+@
+
+<<eval=TRUE, echo=FALSE>>=
+## time for am11
+
+## bbbpipo
+store <- processTestPlot("BBBPIPO", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/BBBPIPO-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("BBBPIPO", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/BBBPIPO-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## emridge
+store <- processTestPlot("EMRIDGE", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/EMRIDGE-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("EMRIDGE", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/EMRIDGE-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## frpije
+store <- processTestPlot("FRPIJE", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/FRPIJE-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("FRPIJE", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/FRPIJE-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## pgabma
+store <- processTestPlot("PGABMA", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/PGABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("PGABMA", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/PGABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## poflabma
+store <- processTestPlot("POFLABMA", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/POFLABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("POFLABMA", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/POFLABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## sftrabma
+store <- processTestPlot("SFTRABMA", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/SFTRABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SFTRABMA", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/SFTRABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## supila
+store <- processTestPlot("SUPILA", filelocs[3], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[3], "/SUPILA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SUPILA", filelocs[3], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[3], "/SUPILA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+rm("store")
+@
+
+<<eval=TRUE, echo=FALSE>>=
+## originals
+
+## bbbpipo
+store <- processTestPlot("BBBPIPO", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/BBBPIPO-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("BBBPIPO", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/BBBPIPO-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## emridge
+store <- processTestPlot("EMRIDGE", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/EMRIDGE-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("EMRIDGE", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/EMRIDGE-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## frpije
+store <- processTestPlot("FRPIJE", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/FRPIJE-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("FRPIJE", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/FRPIJE-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## pgabma
+store <- processTestPlot("PGABMA", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/PGABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("PGABMA", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/PGABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## poflabma
+store <- processTestPlot("POFLABMA", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/POFLABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("POFLABMA", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/POFLABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## sftrabma
+store <- processTestPlot("SFTRABMA", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/SFTRABMA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SFTRABMA", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/SFTRABMA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## supila
+store <- processTestPlot("SUPILA", filelocs[2], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[2], "/SUPILA-AdultAbsBA.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SUPILA", filelocs[2], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[2], "/SUPILA-AdultAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+rm("store")
+@
+
+
+\newpage
+
+\section{Basal Area: At the nintieth percentile}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[1])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpipoadultabsba, frpijeadultabsba, emridgeadultabsba,
+                     pgabmaadultabsba, poflabmaadultabsba, sftrabmaadultabsba,
+                     supilaadultabsba)
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$AdultAbsBA,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsBA", "ExpAbsBA")
+   write.csv(PlotMeans, file=paste(filelocs[1], "/091015-adultba.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsBA"],PlotMeans[,"ExpAbsBA"],
+        col=as.factor(PlotChars$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Adult Asbolute Basal Area")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsBA ~ ExpAbsBA, data=PlotMeans))
+@
+
+Now, how are the individual species doing?
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"])
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+   }
+  
+  getSlope <- function(y, x){
+    myModel <- glm(y ~ x)
+    return(unname(myModel$coefficients[2]))
+  }
+  
+  sppSlopes <- data.frame(species=uniquespp, stringsAsFactors=F)
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "ba90"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"])
+  }
+@
+<<>>==
+  sppSlopes
+@
+
+
+\newpage
+\section{At the original parameter designation}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[2])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpipoadultabsba, frpijeadultabsba, emridgeadultabsba,
+                     pgabmaadultabsba, poflabmaadultabsba, sftrabmaadultabsba,
+                     supilaadultabsba)
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$AdultAbsBA,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsBA", "ExpAbsBA")
+   write.csv(PlotMeans, file=paste(filelocs[2], "/091015-adultba.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsBA"],PlotMeans[,"ExpAbsBA"],
+        col=as.factor(PlotMeans$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Adult Asbolute Basal Area")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsBA ~ ExpAbsBA, data=PlotMeans))
+@
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"])
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+   }
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "ba100"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"])
+  }
+@
+<<>>==
+  sppSlopes
+@
+
+
+
+
+
+\newpage
+\section{At the one hundred and tenth percentile}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[3])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpipoadultabsba, frpijeadultabsba, emridgeadultabsba,
+                     pgabmaadultabsba, poflabmaadultabsba, sftrabmaadultabsba,
+                     supilaadultabsba)
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$AdultAbsBA,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsBA", "ExpAbsBA")
+   write.csv(PlotMeans, file=paste(filelocs[3], "/091015-adultba.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsBA"],PlotMeans[,"ExpAbsBA"],
+        col=as.factor(PlotChars$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Adult Asbolute Basal Area")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsBA ~ ExpAbsBA, data=PlotMeans))
+@
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"])
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+   }
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "ba110"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsBA"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsBA"])
+  }
+@
+<<>>==
+  sppSlopes
+@
+
+
+
+
+
+
+\newpage
+
+\section{Adult Density: At the ninetieth percentile}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[1])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpipoadultabsden, frpijeadultabsden, emridgeadultabsden,
+                     pgabmaadultabsden, poflabmaadultabsden, sftrabmaadultabsden,
+                     supilaadultabsden
+                     )
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$AdultAbsDen,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsDen", "ExpAbsDen")
+   write.csv(PlotMeans, file=paste(filelocs[1], "/091015-adultden.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsDen"],PlotMeans[,"ExpAbsDen"],
+        col=as.factor(PlotChars$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Adult Asbolute Density")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsDen ~ ExpAbsDen, data=PlotMeans))
+@
+
+Now, how are the individual species doing?
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"])
+     if(!is.na(maxval)){
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+     }
+   }
+  
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "den90"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"])
+  }
+@
+<<>>==
+  sppSlopes
+@
+
+
+\newpage
+\section{At the original parameter designation}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[2])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpipoadultabsden, frpijeadultabsden, emridgeadultabsden,
+                     pgabmaadultabsden, poflabmaadultabsden, sftrabmaadultabsden,
+                     supilaadultabsden)
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$AdultAbsDen,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsDen", "ExpAbsDen")
+   write.csv(PlotMeans, file=paste(filelocs[2], "/091015-adultba.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsDen"],PlotMeans[,"ExpAbsDen"],
+        col=as.factor(PlotMeans$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Adult Asbolute Density")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsDen ~ ExpAbsDen, data=PlotMeans))
+@
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"])
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+   }
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "den100"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"])
+  }
+@
+<<>>==
+  sppSlopes
+@
+
+
+
+
+
+\newpage
+\section{At the one hundred and tenth percentile}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[3])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpipoadultabsden, frpijeadultabsden, emridgeadultabsden,
+                     pgabmaadultabsden, poflabmaadultabsden, sftrabmaadultabsden,
+                     supilaadultabsden)
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$AdultAbsDen,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsDen", "ExpAbsDen")
+   write.csv(PlotMeans, file=paste(filelocs[3], "/091015-adultba.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsDen"],PlotMeans[,"ExpAbsDen"],
+        col=as.factor(PlotChars$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Adult Asbolute Density")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsDen ~ ExpAbsDen, data=PlotMeans))
+@
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"])
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+   }
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "den110"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"])
+  }
+@
+<<>>==
+  sppSlopes
+    write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+@
+\end{document}

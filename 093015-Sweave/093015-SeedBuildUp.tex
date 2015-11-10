@@ -1,0 +1,124 @@
+\documentclass{article}
+
+\usepackage{Sweave}
+\begin{document}
+\input{093015-SeedBuildUp-concordance}
+
+\title{Adjusting Individual Parameters}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This paper is an upgrade to the 092315 run; specifically, it did 10 years of populating the seed bank before forking into the true runs. That way, I can load with seedlings/saplings already present. Hypothetically.
+
+This one actually did not perform as well as the last one. Not according to the slopes, anyway.
+
+View the Rnw document to view the code; otherwise, I am only printing outputs to save some space and make this document more readable.
+
+
+
+
+
+\newpage
+
+\section{Basal Area}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsBA ~ ExpAbsBA, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-79.279  -0.796   1.355   2.746  31.532 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.35883    1.38946  -0.978     0.33    
+ExpAbsBA     0.78190    0.05245  14.908   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 12 on 100 degrees of freedom
+Multiple R-squared:  0.6897,	Adjusted R-squared:  0.6866 
+F-statistic: 222.2 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{093015-SeedBuildUp-003}
+
+Now, how are the individual species doing?
+
+\includegraphics{093015-SeedBuildUp-004}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      ba90
+1     ABCO 2.0899943
+2     ABMA 0.4617447
+3     CADE 0.8400491
+4     PICO 0.8397819
+5     PIJE 0.1266374
+6     PILA 2.5266342
+7     PIMO 0.3786069
+8     PIPO 0.2133728
+9     QUCH 0.4564843
+10    QUKE 0.8998571
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\newpage
+
+\section{Adult Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-906.71  -80.89  -52.13  -27.47 1370.10 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 48.44193   33.82868   1.432    0.155    
+ExpAbsDen    0.37377    0.03899   9.586 8.02e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 294.8 on 100 degrees of freedom
+Multiple R-squared:  0.4789,	Adjusted R-squared:  0.4736 
+F-statistic: 91.88 on 1 and 100 DF,  p-value: 8.023e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{093015-SeedBuildUp-006}
+
+Now, how are the individual species doing?
+
+\includegraphics{093015-SeedBuildUp-007}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      ba90      den90
+1     ABCO 2.0899943  0.7611341
+2     ABMA 0.4617447  1.4537117
+3     CADE 0.8400491  2.7527035
+4     PICO 0.8397819  1.1758536
+5     PIJE 0.1266374  0.4481674
+6     PILA 2.5266342  2.6673771
+7     PIMO 0.3786069  1.0196469
+8     PIPO 0.2133728  0.2341411
+9     QUCH 0.4564843 -4.7737627
+10    QUKE 0.8998571  2.8567033
+\end{Soutput}
+\begin{Sinput}
+>     write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+\end{Sinput}
+\end{Schunk}
+\end{document}

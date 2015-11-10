@@ -1,0 +1,320 @@
+\documentclass{article}
+
+\usepackage{Sweave}
+\begin{document}
+\input{091015-adultMortality-concordance}
+
+\title{Adult Mortality: Finding Ideal Parameters}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This paper explores the range of values and accuracy of the \textit{Stochastic Mortality} parameter in SORTIE-ND for adult trees in our validation plots. For each set of parameters in the 081815c runs, I varied them by 10\% to test whether adjusting the parameters would increase the overall model fit. This will also give us an idea of how much swing these parameters have within the simulations. 
+
+For each species/step combination, I'll need to evaluate whether the parameters improve or hurt the model fit. I'll be using a general linear model that regresses the expected values (the ``realPlots'' means) against the simulated values of the model. The model improves as the slope approaches 1. If realPlots data are on the y-axis, then points or lines that fall above the ``1'' demarkation line are \textit{underpredicting} the true value; and points or lines that fall below the ``1'' demarkation line are \textit{overpredicting} the true value.
+
+We'll need to view all of the data -- data for the 90, 100, and 110 percent values of the parameters -- before we can conduct the analysis. 
+
+View the Rnw document to view the code; otherwise, I am only printing outputs to save some space and make this document more readable.
+
+
+
+
+
+
+
+\newpage
+
+\section{Basal Area: At the nintieth percentile}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsBA ~ ExpAbsBA, data = PlotMeans)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-25.2830   0.1648   1.8907   2.0497  11.8904 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.97982    0.76754  -2.579   0.0114 *  
+ExpAbsBA     0.99114    0.02897  34.210   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.629 on 100 degrees of freedom
+Multiple R-squared:  0.9213,	Adjusted R-squared:  0.9205 
+F-statistic:  1170 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{091015-adultMortality-005}
+
+Now, how are the individual species doing?
+
+\includegraphics{091015-adultMortality-006}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       ba90
+1     ABCO  2.9928258
+2     ABMA  0.9303770
+3     CADE  0.9881693
+4     PICO  0.9894498
+5     PIJE -8.5810067
+6     PILA  2.5893228
+7     PIMO  1.0665150
+8     PIPO  0.4462360
+9     QUCH  3.8575875
+10    QUKE  1.0103042
+\end{Soutput}
+\end{Schunk}
+
+
+\newpage
+\section{At the original parameter designation}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsBA ~ ExpAbsBA, data = PlotMeans)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-25.4994   0.6266   1.8614   2.1016  11.8698 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.92879    0.76443  -2.523   0.0132 *  
+ExpAbsBA     0.98574    0.02886  34.162   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.602 on 100 degrees of freedom
+Multiple R-squared:  0.9211,	Adjusted R-squared:  0.9203 
+F-statistic:  1167 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{091015-adultMortality-008}
+
+\includegraphics{091015-adultMortality-009}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       ba90     ba100
+1     ABCO  2.9928258 3.1019378
+2     ABMA  0.9303770 0.9334313
+3     CADE  0.9881693 1.0087895
+4     PICO  0.9894498 0.9387414
+5     PIJE -8.5810067 2.6774396
+6     PILA  2.5893228 2.6625704
+7     PIMO  1.0665150 1.0023397
+8     PIPO  0.4462360 0.7170184
+9     QUCH  3.8575875 6.2062555
+10    QUKE  1.0103042 1.0189905
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+
+\newpage
+\section{At the one hundred and tenth percentile}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsBA ~ ExpAbsBA, data = PlotMeans)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-24.6278   0.1299   1.8553   2.0162  11.2939 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.96457    0.74503  -2.637   0.0097 ** 
+ExpAbsBA     0.98375    0.02812  34.980   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.435 on 100 degrees of freedom
+Multiple R-squared:  0.9244,	Adjusted R-squared:  0.9237 
+F-statistic:  1224 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{091015-adultMortality-011}
+
+\includegraphics{091015-adultMortality-012}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       ba90     ba100     ba110
+1     ABCO  2.9928258 3.1019378 2.9203161
+2     ABMA  0.9303770 0.9334313 0.9390778
+3     CADE  0.9881693 1.0087895 1.0194874
+4     PICO  0.9894498 0.9387414 1.0121360
+5     PIJE -8.5810067 2.6774396 2.8873227
+6     PILA  2.5893228 2.6625704 2.4235302
+7     PIMO  1.0665150 1.0023397 0.9308032
+8     PIPO  0.4462360 0.7170184 0.7361313
+9     QUCH  3.8575875 6.2062555 4.7766558
+10    QUKE  1.0103042 1.0189905 1.0343655
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+
+
+\newpage
+
+\section{Adult Density: At the ninetieth percentile}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-773.90  -73.43  -49.46   -4.22  716.22 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 51.63236   22.50551   2.294   0.0239 *  
+ExpAbsDen    0.35255    0.02594  13.590   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 196.2 on 100 degrees of freedom
+Multiple R-squared:  0.6487,	Adjusted R-squared:  0.6452 
+F-statistic: 184.7 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{091015-adultMortality-014}
+
+Now, how are the individual species doing?
+
+\includegraphics{091015-adultMortality-015}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       ba90     ba100     ba110       den90
+1     ABCO  2.9928258 3.1019378 2.9203161   1.3382443
+2     ABMA  0.9303770 0.9334313 0.9390778   2.2077106
+3     CADE  0.9881693 1.0087895 1.0194874   2.3013427
+4     PICO  0.9894498 0.9387414 1.0121360   1.4867684
+5     PIJE -8.5810067 2.6774396 2.8873227 -15.7545073
+6     PILA  2.5893228 2.6625704 2.4235302   2.3663079
+7     PIMO  1.0665150 1.0023397 0.9308032   4.0416817
+8     PIPO  0.4462360 0.7170184 0.7361313   0.3540432
+9     QUCH  3.8575875 6.2062555 4.7766558 -15.0509745
+10    QUKE  1.0103042 1.0189905 1.0343655   2.5407689
+\end{Soutput}
+\end{Schunk}
+
+
+\newpage
+\section{At the original parameter designation}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-776.11  -73.57  -48.99   -4.74  687.39 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 52.13734   22.09152    2.36   0.0202 *  
+ExpAbsDen    0.34780    0.02546   13.66   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 192.5 on 100 degrees of freedom
+Multiple R-squared:  0.651,	Adjusted R-squared:  0.6475 
+F-statistic: 186.6 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{091015-adultMortality-017}
+
+\includegraphics{091015-adultMortality-018}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       ba90     ba100     ba110       den90     den100
+1     ABCO  2.9928258 3.1019378 2.9203161   1.3382443   1.366993
+2     ABMA  0.9303770 0.9334313 0.9390778   2.2077106   2.218563
+3     CADE  0.9881693 1.0087895 1.0194874   2.3013427   2.345902
+4     PICO  0.9894498 0.9387414 1.0121360   1.4867684   1.479854
+5     PIJE -8.5810067 2.6774396 2.8873227 -15.7545073  27.477350
+6     PILA  2.5893228 2.6625704 2.4235302   2.3663079   3.557684
+7     PIMO  1.0665150 1.0023397 0.9308032   4.0416817   4.056143
+8     PIPO  0.4462360 0.7170184 0.7361313   0.3540432   1.296860
+9     QUCH  3.8575875 6.2062555 4.7766558 -15.0509745 -15.618990
+10    QUKE  1.0103042 1.0189905 1.0343655   2.5407689   2.577005
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+
+\newpage
+\section{At the one hundred and tenth percentile}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-767.34  -71.33  -46.94   -3.85  686.55 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 49.36754   22.10366   2.233   0.0277 *  
+ExpAbsDen    0.34679    0.02548  13.611   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 192.7 on 100 degrees of freedom
+Multiple R-squared:  0.6495,	Adjusted R-squared:  0.646 
+F-statistic: 185.3 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{091015-adultMortality-020}
+
+\includegraphics{091015-adultMortality-021}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       ba90     ba100     ba110       den90     den100      den110
+1     ABCO  2.9928258 3.1019378 2.9203161   1.3382443   1.366993   1.3684776
+2     ABMA  0.9303770 0.9334313 0.9390778   2.2077106   2.218563   2.2277121
+3     CADE  0.9881693 1.0087895 1.0194874   2.3013427   2.345902   2.3504348
+4     PICO  0.9894498 0.9387414 1.0121360   1.4867684   1.479854   1.5770970
+5     PIJE -8.5810067 2.6774396 2.8873227 -15.7545073  27.477350  23.6018957
+6     PILA  2.5893228 2.6625704 2.4235302   2.3663079   3.557684   2.5267085
+7     PIMO  1.0665150 1.0023397 0.9308032   4.0416817   4.056143   3.9716315
+8     PIPO  0.4462360 0.7170184 0.7361313   0.3540432   1.296860   0.5008582
+9     QUCH  3.8575875 6.2062555 4.7766558 -15.0509745 -15.618990 -21.5706398
+10    QUKE  1.0103042 1.0189905 1.0343655   2.5407689   2.577005   2.6301308
+\end{Soutput}
+\begin{Sinput}
+>     write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+\end{Sinput}
+\end{Schunk}
+\end{document}

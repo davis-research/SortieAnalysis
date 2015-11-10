@@ -1,0 +1,244 @@
+\documentclass{article}
+\usepackage[hidelinks]{hyperref}
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{081815c -- Runs with 5mx5m gridded subplots}
+\author{Samantha L. Davis}
+\maketitle
+
+\section{Summary}
+
+The seven plots that I chose to use for calibration were: BBBPIPO, EMRIDGE, FRPIJE, PGABMA, POFLABMA, SFTRABMA, and SUPILA. This document details the results from the batch files labeled 081815c-X.xml. The tree maps in 081815c-X use a mixture of plot generation methods. The real plot data are positioned in the bottom left; the remaining space is filled with points generated between 09-1.1 times a sample of the original data, with replacement. These plots are positioned in the bottom left to facilitate the use of the "subplots" feature in SORTIE-ND. The following data are for the "real" subplot within the larger 300m x 300m space. One weakness is that the subplot boundaries in this run are not exact. 081815c-X will be exact, when I set them up.
+
+One major revision here is that several of the functions have been modified to support subplots. You'll now see extra parameters in "processTestPlot". Finally, these plots are dealing with the initial offset issue that was seen in previous plots. My "real plots" are for all recorded trees, even if they are tiny. SORTIE-ND classifies trees into different size classes as seedlings, saplings, and adults. Although this is useful, I don't feel like reworking "realPlots" quite yet, so I modified testExpSim and plotExpSim to lump the three classes together. As you can see, this brings the numbers for density remarkably closer than where they were.
+
+\section{Methods}
+
+Allometry parameter calculation is described in the MakeMyForests vignette, which can be \href{https://github.com/ecology-rocks/MakeMyForests/blob/master/inst/doc/MakeMyForestsManual.pdf}{accessed on GitHub}. Of note, the growth and mortality calculations from that manual are not used in this model run, but are described in more detail below.
+
+Dispersal parameters were calculated using the disperseR package. More details can be found in the disperseR documentation. Dispersal parameters were calculated as a result of species across all seven plots, and not calibrated to individual plots.
+
+For growth rate, I decided to use the NCI growth with auto height sub-model in SORTIE-ND. This sub-model requires a maximum growth rate, and then a series of modifiers ranging between 0-1 to represent the possible effects of crowding, disturbance, drought, etc. For the base model, I opted to use mean growth rate as calculated from the seven calibration plots, by species. This run did not use variation in growth rate, but instead used a static increase.
+
+Mortality rates were calculated by counting the total number of alive and dead trees for \textit{each year}, and summing those across species for each of the seven calibration plots. Those resulting number of dead and alive per species were combined to estimate mean mortality rate as $\frac{n\:dead}{n\:dead\;+\;n\:alive}$.
+
+Individual "expected" outcomes were calculated from existing plot records. Relevant plot values like "Adult Basal Area Per Hectare" and "Adult Density Per Hectare" were calculated for each timestep in the real plot records. These were saved in a CSV file entitled \texttt{expectedPlotOutcomes.csv}, and can also be found in the \texttt{SortieOutputs} package in the data.frame \texttt{realPlots}.
+
+I generated seven parameter files, one for each calibration plot. Within each, there was a 300m x 300m tree map added. The real plot data are positioned in the bottom left; the remaining space is filled with points generated between 09-1.1 times a sample of the original data, with replacement. These plots are positioned in the bottom left to facilitate the use of the "subplots" feature in SORTIE-ND, and this document shows the results from an approximate subplot containing real plot data only.
+
+I ran each parameter file \textbf{fifteen} times in a batch file, and saved summary outputs that calculated Density and Basal Area per hectare for each time step for Adults, Saplings, and Seedlings.
+
+\section{Results}
+
+For the first set of figures, by plot, the hashmarks represent a single trial at a single time point, and may be grouped together rather closely. The closed squares of the same color indicate the true means of the real plots. The x-axis is time, and the y-axis is the variable of interest.
+
+\newpage
+
+\subsection{BBBPIPO: Adult Basal Area and Density}
+<<fig=TRUE>>=
+library(SortieOutputs)
+ head(processTestPlot("BBBPIPO", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/BBBPIPO-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("BBBPIPO", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/BBBPIPO-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{EMRIDGE: Adult Basal Area and Density}
+<<fig=TRUE>>=
+ head(processTestPlot("EMRIDGE", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/EMRIDGE-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("EMRIDGE", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/EMRIDGE-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{FRPIJE: Adult Basal Area and Density}
+<<fig=TRUE>>=
+ head(processTestPlot("FRPIJE", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/FRPIJE-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("FRPIJE", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/FRPIJE-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{PGABMA: Adult Basal Area and Density}
+<<fig=TRUE>>=
+ head(processTestPlot("PGABMA", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/PGABMA-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("PGABMA", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/PGABMA-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{POFLABMA: Adult Basal Area and Density}
+<<fig=TRUE>>=
+ head(processTestPlot("POFLABMA", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/POFLABMA-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("POFLABMA", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/POFLABMA-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{SFTRABMA: Adult Basal Area and Density}
+<<fig=TRUE>>=
+ head(processTestPlot("SFTRABMA", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/SFTRABMA-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("SFTRABMA", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/SFTRABMA-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{SUPILA: Adult Basal Area and Density}
+<<fig=TRUE>>=
+ head(processTestPlot("SUPILA", "outfiles/c", 0,
+                  charactername="AdultAbsBA",
+                 writefile="outfiles/c/means/SUPILA-AdultAbsBA.csv",
+                 numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+  head(processTestPlot("SUPILA", "outfiles/c", 0,
+                  charactername="AdultAbsDen",
+                  writefile="outfiles/c/means/SUPILA-AdultAbsDen.csv",
+                  numsubplots = 3, subplotid=1))
+@
+
+\newpage
+
+\subsection{Averages For All Plots}
+
+For time saving and an issue with loading a bunch of files needlessy, I wrote the means, by species, across seven plots, into a separate file for each of the two characters (Basal Area and Density). I will read those files in and plot the simulated against the expected/real plot data. If there is a slope of 1, we can assume that our model did a decent job at predicting that variable.
+
+
+
+<<fig=TRUE>>=
+library(disperseR)
+  store <- readCSVs("outfiles/c/means")
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+  AllAbsBA <- rbind(bbbpipoadultabsba, frpijeadultabsba, emridgeadultabsba,
+                    pgabmaadultabsba, poflabmaadultabsba, sftrabmaadultabsba,
+                    supilaadultabsba)
+  ## Means of simulated BA by step and species
+  AllAbsBAmeans <- aggregate(AllAbsBA$simMean,
+                             by=list(AllAbsBA$Step, AllAbsBA$Species),
+                             FUN=mean, na.rm=T)
+  ## Means of Expected/Actual BA by step and species
+  AllAbsBAmeans$expmean <- aggregate(AllAbsBA$AdultAbsBA,
+                                     by=list(AllAbsBA$Step, AllAbsBA$Species),
+                                     FUN=mean, na.rm=T)[,3]
+  ## Adjusting column names and writing file for later
+  colnames(AllAbsBAmeans) <- c("Step", "Species", "SimAbsBA", "ExpAbsBA")
+  write.csv(AllAbsBAmeans, file="outfiles/c/081815-adultba.csv", row.names=F)
+  ## make the plot
+ plot(AllAbsBAmeans[,"SimAbsBA"],AllAbsBAmeans[,"ExpAbsBA"],
+       col=as.factor(AllAbsBA$Species),
+       xlab="Simulated Means", ylab="Expected Means",
+       main="Group Adult Asbolute Basal Area")
+  abline(0,1)
+  legend("topleft",
+         legend=as.factor(unique(AllAbsBA$Species)),
+         fill=as.factor(unique(AllAbsBA$Species)))
+  ## get the slope and r2 of the linear model line
+  summary(lm(SimAbsBA ~ ExpAbsBA, data=AllAbsBAmeans))
+@
+
+\newpage
+
+<<fig=TRUE>>=
+
+  ## And absolute density
+  AllAbsDenDf <- rbind(bbbpipoadultabsden, frpijeadultabsden, emridgeadultabsden,
+                      pgabmaadultabsden, poflabmaadultabsden, sftrabmaadultabsden,
+                      supilaadultabsden)
+  AllAbsDen <- aggregate(AllAbsDenDf$simMean,
+                              by=list(AllAbsDenDf$Step, AllAbsDenDf$Species),
+                              FUN=mean, na.rm=T)
+  AllAbsDen$expmean <- aggregate(AllAbsDenDf$AdultAbsDen,
+                                      by=list(AllAbsDenDf$Step, AllAbsDenDf$Species),
+                                      FUN=mean, na.rm=T)[,3]
+  colnames(AllAbsDen) <- c("Step", "Species", "SimAbsDen", "ExpAbsDen")
+  write.csv(AllAbsDen, file="outfiles/c/081815-adultdensity.csv", row.names=F)
+
+   plot(AllAbsDen[,"SimAbsDen"], AllAbsDen[,"ExpAbsDen"],
+        col=as.factor(AllAbsDen$Species), main="Group Adult Absolute Density",
+        xlab="Simulated Absolute Density", ylab="Expected Means")
+  abline(0,1)
+  legend("topleft", legend=unique(as.factor(AllAbsDen$Species)),
+         fill=unique(as.factor(AllAbsDen$Species)))
+  summary(lm(SimAbsDen ~ ExpAbsDen, data=AllAbsDen))
+
+@
+
+
+
+\section{Next Steps}
+
+The next step is to readjust the subplot boundaries so they match better. Initial subplot grid was set at 8m x 8m, but we should set it to 5m x 5m so we cut out as many simulated trees as possible. We may also need to examine SUPILA, because it seems like the tree map I'm entering doesn't match the real plot data well. It might just be a subplot boundary, or it may have been a programming error that I haven't caught yet.
+
+\end{document}

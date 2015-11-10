@@ -1,0 +1,253 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{Adjusting Individual Parameters}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This paper is an upgrade to the 092315 run; specifically, it did 10 years of populating the seed bank before forking into the true runs. That way, I can load with seedlings/saplings already present. Hypothetically.
+
+This one actually did not perform as well as the last one. Not according to the slopes, anyway.
+
+View the Rnw document to view the code; otherwise, I am only printing outputs to save some space and make this document more readable.
+
+<<echo=FALSE>>=
+## load library
+library(SortieIO)
+library(outliers)
+library(disperseR)
+
+parName <- "justSeeds"
+filelocs <- c("outfiles/orig")
+filemeans <- paste(filelocs, "/means", sep="")
+charname <- c("SdlAbsDen", "SaplAbsDen")
+
+@
+
+
+<<eval=TRUE, echo=FALSE>>==
+## bbbpipo
+store <- processTestPlot("BBBPIPO", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/BBBPIPO-SdlAbsDen.csv", sep=""),
+                 numsubplots = 3, subplotid=1)
+
+store <- processTestPlot("BBBPIPO", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/BBBPIPO-SaplAbsDen.csv", sep=""),
+                 numsubplots = 3, subplotid=1)
+
+## emridge
+store <- processTestPlot("EMRIDGE", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/EMRIDGE-SdlAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("EMRIDGE", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/EMRIDGE-SaplAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## frpije
+store <- processTestPlot("FRPIJE", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/FRPIJE-SdlAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("FRPIJE", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/FRPIJE-SaplAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## pgabma
+store <- processTestPlot("PGABMA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/PGABMA-SdlAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("PGABMA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/PGABMA-SaplAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## poflabma
+store <- processTestPlot("POFLABMA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/POFLABMA-SdlAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("POFLABMA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/POFLABMA-SaplAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## sftrabma
+store <- processTestPlot("SFTRABMA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/SFTRABMA-SdlAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SFTRABMA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/SFTRABMA-SaplAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+
+## supila
+store <- processTestPlot("SUPILA", filelocs[1], 0,
+                  charactername=charname[1],
+                 writefile=paste(filemeans[1], "/SUPILA-SdlAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+store <- processTestPlot("SUPILA", filelocs[1], 0,
+                  charactername=charname[2],
+                 writefile=paste(filemeans[1], "/SUPILA-SaplAbsDen.csv", sep=""), 
+                 numsubplots = 3, subplotid=1)
+rm("store")
+@
+
+
+\newpage
+
+\section{Seedling Absolute Density}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[1])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpiposdlabsden, frpijesdlabsden, emridgesdlabsden,
+                     pgabmasdlabsden, poflabmasdlabsden, sftrabmasdlabsden,
+                     supilasdlabsden)
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$SdlAbsDen,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsDen", "ExpAbsDen")
+   write.csv(PlotMeans, file=paste(filelocs[1], "/093015-sdlden.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsDen)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsDen"],PlotMeans[,"ExpAbsDen"],
+        col=as.factor(PlotChars$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Seedling Absolute Density")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsDen ~ ExpAbsDen, data=PlotMeans))
+@
+
+Now, how are the individual species doing?
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"])
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+   }
+  
+  getSlope <- function(y, x){
+    myModel <- glm(y ~ x)
+    return(unname(myModel$coefficients[2]))
+  }
+  
+  sppSlopes <- data.frame(species=uniquespp, stringsAsFactors=F)
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "sdlDen"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"])
+  }
+@
+<<>>==
+  sppSlopes
+@
+
+
+
+
+\newpage
+
+\section{Sapling Density}
+<<fig=TRUE, echo=FALSE>>=
+
+  store <- readCSVs(filemeans[1])
+  eval(parse(text=store))
+
+  ## Ok, let's look at absolute basal area
+    PlotChars <- rbind(bbbpiposaplabsden, frpijesaplabsden, emridgesaplabsden,
+                     pgabmasaplabsden, poflabmasaplabsden, sftrabmasaplabsden,
+                     supilasaplabsden
+                     )
+    #head(PlotChars)
+   ## Means of simulated BA by step and species
+   PlotMeans <- aggregate(PlotChars$simMean,
+                              by=list(PlotChars$Step, PlotChars$Species),
+                              FUN=mean, na.rm=T)
+   #head(PlotMeans)
+  ## Means of Expected/Actual BA by step and species
+   PlotMeans$expmean <- aggregate(PlotChars$SaplAbsDen,
+                                      by=list(PlotChars$Step, PlotChars$Species),
+                                      FUN=mean, na.rm=T)[,3]
+   ## Adjusting column names and writing file for later
+   colnames(PlotMeans) <- c("Step", "Species", "SimAbsDen", "ExpAbsDen")
+   write.csv(PlotMeans, file=paste(filelocs[1], "/091015-saplden.csv", sep=""), row.names=F)
+   #str(PlotMeans)
+   #head(PlotMeans)
+   #unique(PlotMeans$SimAbsBA)
+   ## make the plot
+  plot(PlotMeans[,"SimAbsDen"],PlotMeans[,"ExpAbsDen"],
+        col=as.factor(PlotChars$Species),
+        xlab="Simulated Means", ylab="Expected Means",
+        main="Group Sapling Asbolute Density")
+   abline(0,1)
+   legend("topleft",
+          legend=as.factor(unique(PlotChars$Species)),
+          fill=as.factor(unique(PlotChars$Species)))
+   ## get the slope and r2 of the linear model line
+   summary(lm(SimAbsDen ~ ExpAbsDen, data=PlotMeans))
+@
+
+Now, how are the individual species doing?
+
+<<fig=TRUE, echo=F, out.height=10, fig.width=10, fig.height=10>>==
+  uniquespp <- unique(PlotMeans$Species)
+  par(mfrow=c(3,4))
+   for(i in 1:length(uniquespp)){
+     maxval <- ifelse(max(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], na.rm=T) > max(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], na.rm=T), 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+                      PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"])
+     if(!is.na(maxval)){
+     plot(PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"], 
+          PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+          xlab="Simulated Means", ylab="Expected Means", xlim=c(0, maxval), 
+          ylim=c(0, maxval), main=uniquespp[i], asp=1)
+     abline(0,1)
+     }
+   }
+  
+  
+  for(i in 1:length(uniquespp)){
+    sppSlopes[i, "saplDen"] <- getSlope(PlotMeans[PlotMeans$Species==uniquespp[i], "ExpAbsDen"], 
+                                        PlotMeans[PlotMeans$Species==uniquespp[i], "SimAbsDen"])
+  }
+@
+<<>>==
+  sppSlopes
+    write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+@
+\end{document}

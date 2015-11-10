@@ -1,0 +1,314 @@
+\documentclass{article}
+
+\usepackage{Sweave}
+\begin{document}
+\input{103015-SeedBuildUp-justSeeds-concordance}
+
+\title{Adjusting Individual Parameters}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This run was the only run in October. It was a severe reduction of seedling/sapling mortality to see if we can make the seedling/sapling numbers match more closely without completely screwing up adult growth and reproduction. 
+
+
+
+\begin{Schunk}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\begin{Soutput}
+[1] "error testing"
+\end{Soutput}
+\end{Schunk}
+
+
+\newpage
+
+\section{Seedling Absolute Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1237.15  -212.89  -206.09   -95.67  2535.33 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 206.6497    44.4774   4.646 6.19e-06 ***
+ExpAbsDen     0.2100     0.0529   3.970 0.000101 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 590.2 on 196 degrees of freedom
+Multiple R-squared:  0.07441,	Adjusted R-squared:  0.06969 
+F-statistic: 15.76 on 1 and 196 DF,  p-value: 0.000101
+\end{Soutput}
+\end{Schunk}
+\includegraphics{103015-SeedBuildUp-justSeeds-003}
+
+Now, how are the individual species doing?
+
+\includegraphics{103015-SeedBuildUp-justSeeds-004}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       sdlDen
+1     ABCO    0.1960952
+2     ABMA    1.2459189
+3     CADE    4.3204355
+4     PICO    2.1647434
+5     PIJE   -0.2163740
+6     PILA    1.4566700
+7     PIMO    2.6091617
+8     PIPO    1.0034431
+9     QUCH -151.8999127
+10    QUKE    4.4717642
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\newpage
+
+\section{Sapling Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-423.02  -25.79    1.34    6.56  565.99 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -6.28107   10.48661  -0.599     0.55    
+ExpAbsDen    1.10645    0.06031  18.347   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 95.05 on 110 degrees of freedom
+Multiple R-squared:  0.7537,	Adjusted R-squared:  0.7515 
+F-statistic: 336.6 on 1 and 110 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{103015-SeedBuildUp-justSeeds-006}
+
+Now, how are the individual species doing?
+
+\includegraphics{103015-SeedBuildUp-justSeeds-007}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       sdlDen      saplDen
+1     ABCO    0.1960952   0.38371483
+2     ABMA    1.2459189   0.88649467
+3     CADE    4.3204355   0.57013355
+4     PICO    2.1647434   0.61904082
+5     PIJE   -0.2163740   0.02270199
+6     PILA    1.4566700   1.04085803
+7     PIMO    2.6091617   1.25069870
+8     PIPO    1.0034431   0.09259821
+9     QUCH -151.8999127 226.01237004
+10    QUKE    4.4717642  -0.13136261
+\end{Soutput}
+\begin{Sinput}
+>     write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+\end{Sinput}
+\end{Schunk}
+
+
+\newpage
+
+
+
+\section{Adult Absolute Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1579.0  -210.8  -165.1  -119.1  3617.0 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 152.93603   82.26083   1.859   0.0659 .  
+ExpAbsDen     0.58143    0.09482   6.132 1.74e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 717 on 100 degrees of freedom
+Multiple R-squared:  0.2733,	Adjusted R-squared:  0.266 
+F-statistic:  37.6 on 1 and 100 DF,  p-value: 1.741e-08
+\end{Soutput}
+\end{Schunk}
+\includegraphics{103015-SeedBuildUp-justSeeds-009}
+
+Now, how are the individual species doing?
+
+\includegraphics{103015-SeedBuildUp-justSeeds-010}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       sdlDen      saplDen     AdultDen
+1     ABCO    0.1960952   0.38371483   0.23875374
+2     ABMA    1.2459189   0.88649467   1.92228574
+3     CADE    4.3204355   0.57013355   1.71753339
+4     PICO    2.1647434   0.61904082   1.29433917
+5     PIJE   -0.2163740   0.02270199   0.01596296
+6     PILA    1.4566700   1.04085803   1.84091935
+7     PIMO    2.6091617   1.25069870   2.01635949
+8     PIPO    1.0034431   0.09259821  -0.05328505
+9     QUCH -151.8999127 226.01237004 -33.60559565
+10    QUKE    4.4717642  -0.13136261   1.82832250
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\newpage
+
+\section{Adult Absolute Basal Area}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-29.040   0.174   2.041   2.455  13.388 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -2.07609    0.79638  -2.607   0.0105 *  
+ExpAbsDen    0.89293    0.03006  29.704   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.878 on 100 degrees of freedom
+Multiple R-squared:  0.8982,	Adjusted R-squared:  0.8972 
+F-statistic: 882.3 on 1 and 100 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{103015-SeedBuildUp-justSeeds-012}
+
+Now, how are the individual species doing?
+
+\includegraphics{103015-SeedBuildUp-justSeeds-013}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species       sdlDen      saplDen     AdultDen   adultBA
+1     ABCO    0.1960952   0.38371483   0.23875374 2.2992679
+2     ABMA    1.2459189   0.88649467   1.92228574 1.0252671
+3     CADE    4.3204355   0.57013355   1.71753339 1.0587085
+4     PICO    2.1647434   0.61904082   1.29433917 0.9426788
+5     PIJE   -0.2163740   0.02270199   0.01596296 0.1486053
+6     PILA    1.4566700   1.04085803   1.84091935 2.3562351
+7     PIMO    2.6091617   1.25069870   2.01635949 0.7635874
+8     PIPO    1.0034431   0.09259821  -0.05328505 0.7028428
+9     QUCH -151.8999127 226.01237004 -33.60559565 2.8492264
+10    QUKE    4.4717642  -0.13136261   1.82832250 1.1143598
+\end{Soutput}
+\end{Schunk}
+
+
+\section{Conclusions}
+
+So it seems like reducing / removing mortality rates from seedlings and saplings can "rescue" the lines and make them much, much closer to ideal (1) than otherwise. So in essence, I've answered the question. Dispersal as it is currently modeled is only giving off enough seeds for survivors, with no room for seeds to die off. So, I can simplify like this or try harder to model death and dispersal actually. 
+
+\end{document}

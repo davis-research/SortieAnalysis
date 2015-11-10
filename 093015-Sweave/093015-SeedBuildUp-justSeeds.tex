@@ -1,0 +1,124 @@
+\documentclass{article}
+
+\usepackage{Sweave}
+\begin{document}
+\input{093015-SeedBuildUp-justSeeds-concordance}
+
+\title{Adjusting Individual Parameters}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This paper is an upgrade to the 092315 run; specifically, it did 10 years of populating the seed bank before forking into the true runs. That way, I can load with seedlings/saplings already present. Hypothetically.
+
+This one actually did not perform as well as the last one. Not according to the slopes, anyway.
+
+View the Rnw document to view the code; otherwise, I am only printing outputs to save some space and make this document more readable.
+
+
+
+
+
+\newpage
+
+\section{Seedling Absolute Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-531.26  -62.29  -58.81  -26.74  635.60 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 58.71876   12.61262   4.656 5.96e-06 ***
+ExpAbsDen    0.08706    0.01496   5.819 2.40e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 166.9 on 195 degrees of freedom
+Multiple R-squared:  0.1479,	Adjusted R-squared:  0.1436 
+F-statistic: 33.86 on 1 and 195 DF,  p-value: 2.399e-08
+\end{Soutput}
+\end{Schunk}
+\includegraphics{093015-SeedBuildUp-justSeeds-003}
+
+Now, how are the individual species doing?
+
+\includegraphics{093015-SeedBuildUp-justSeeds-004}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      sdlDen
+1     ABCO    2.157439
+2     ABMA    3.380833
+3     CADE   10.706891
+4     PICO    3.295118
+5     PIJE   -6.009182
+6     PILA    7.852920
+7     PIMO    5.585802
+8     PIPO    3.642160
+9     QUCH -180.534271
+10    QUKE   29.951049
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\newpage
+
+\section{Sapling Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-629.40  -31.75    0.88    6.35  696.04 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -6.46008   14.50988  -0.445    0.657    
+ExpAbsDen    1.08447    0.08344  12.997   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 131.5 on 110 degrees of freedom
+Multiple R-squared:  0.6056,	Adjusted R-squared:  0.602 
+F-statistic: 168.9 on 1 and 110 DF,  p-value: < 2.2e-16
+\end{Soutput}
+\end{Schunk}
+\includegraphics{093015-SeedBuildUp-justSeeds-006}
+
+Now, how are the individual species doing?
+
+\includegraphics{093015-SeedBuildUp-justSeeds-007}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      sdlDen      saplDen
+1     ABCO    2.157439   0.34272634
+2     ABMA    3.380833   0.77941696
+3     CADE   10.706891   0.61776581
+4     PICO    3.295118   0.48216647
+5     PIJE   -6.009182   0.22176447
+6     PILA    7.852920   1.11587597
+7     PIMO    5.585802   0.73830836
+8     PIPO    3.642160   0.09804478
+9     QUCH -180.534271 -14.87905328
+10    QUKE   29.951049   0.19570718
+\end{Soutput}
+\begin{Sinput}
+>     write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+\end{Sinput}
+\end{Schunk}
+\end{document}
