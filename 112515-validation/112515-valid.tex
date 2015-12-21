@@ -1,0 +1,230 @@
+\documentclass{article}
+
+\usepackage{Sweave}
+\begin{document}
+\input{112515-valid-concordance}
+
+\title{Addding Seedling Allometry Values}
+\author{Samantha L. Davis}
+
+\maketitle
+
+\section{Summary}
+This run is the first run in November. I kept the reduction of seed/ling mortality from the 103015 run, and added in a different allometric parameter for seedlings. The parameter is the slope of the relationship between diam10 and seedling height. The default parameter that the original program set was 0.03, when I ran ours, I actually found a value of about 0.22 across species. It didn't vary enough (plus or minus 0.02) for me to think that the differences were appreciable. That is the only change in this run.
+
+
+
+
+
+\newpage
+
+\section{Seedling Absolute Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1233.87   -84.65   -70.31   -67.50  1133.34 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 68.86711   26.70203   2.579   0.0107 *  
+ExpAbsDen    0.32247    0.04476   7.204 1.76e-11 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 326.4 on 172 degrees of freedom
+Multiple R-squared:  0.2318,	Adjusted R-squared:  0.2273 
+F-statistic:  51.9 on 1 and 172 DF,  p-value: 1.755e-11
+\end{Soutput}
+\end{Schunk}
+\includegraphics{112515-valid-003}
+
+Now, how are the individual species doing?
+
+\includegraphics{112515-valid-004}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      sdlDen
+1     ABCO   1.0146872
+2     ABMA   8.2777967
+3     CADE  12.8171749
+4     PICO -13.5321395
+5     PIJE   1.9136359
+6     PILA  12.0836268
+7     PIMO -15.3637140
+8     PIPO   0.2800365
+9     QUCH          NA
+10    QUKE  14.3987423
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\newpage
+
+\section{Sapling Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2993.1  -565.5  -148.4  -121.4 12750.7 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  116.400    262.053   0.444    0.658    
+ExpAbsDen      5.002      1.136   4.405  3.1e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2056 on 84 degrees of freedom
+Multiple R-squared:  0.1876,	Adjusted R-squared:  0.178 
+F-statistic:  19.4 on 1 and 84 DF,  p-value: 3.1e-05
+\end{Soutput}
+\end{Schunk}
+\includegraphics{112515-valid-006}
+
+Now, how are the individual species doing?
+
+\includegraphics{112515-valid-007}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      sdlDen       saplDen
+1     ABCO   1.0146872 -2.368110e-02
+2     ABMA   8.2777967  5.680939e-01
+3     CADE  12.8171749  8.407172e-01
+4     PICO -13.5321395 -7.267092e-02
+5     PIJE   1.9136359  7.692643e-02
+6     PILA  12.0836268  7.511476e-01
+7     PIMO -15.3637140  2.811277e-02
+8     PIPO   0.2800365  8.744458e-02
+9     QUCH          NA  1.973967e-16
+10    QUKE  14.3987423  1.166009e+00
+\end{Soutput}
+\begin{Sinput}
+>     write.csv(sppSlopes, file=paste(parName, ".csv", sep=""))
+\end{Sinput}
+\end{Schunk}
+
+
+\newpage
+
+
+
+\section{Adult Absolute Density}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5689.9  -795.8  -607.3  -541.9 13387.3 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept) 529.1146   414.3258   1.277  0.20642   
+ExpAbsDen     1.1502     0.3967   2.900  0.00519 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2739 on 61 degrees of freedom
+Multiple R-squared:  0.1211,	Adjusted R-squared:  0.1067 
+F-statistic: 8.407 on 1 and 61 DF,  p-value: 0.005188
+\end{Soutput}
+\end{Schunk}
+\includegraphics{112515-valid-009}
+
+Now, how are the individual species doing?
+
+\includegraphics{112515-valid-010}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      sdlDen       saplDen    AdultDen
+1     ABCO   1.0146872 -2.368110e-02 -0.04344119
+2     ABMA   8.2777967  5.680939e-01 -0.10842942
+3     CADE  12.8171749  8.407172e-01  3.12673632
+4     PICO -13.5321395 -7.267092e-02 -0.22653448
+5     PIJE   1.9136359  7.692643e-02  1.63411578
+6     PILA  12.0836268  7.511476e-01 -0.05931691
+7     PIMO -15.3637140  2.811277e-02 -0.36350893
+8     PIPO   0.2800365  8.744458e-02  2.48287674
+9     QUCH          NA  1.973967e-16          NA
+10    QUKE  14.3987423  1.166009e+00          NA
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\newpage
+
+\section{Adult Absolute Basal Area}
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = SimAbsDen ~ ExpAbsDen, data = PlotMeans)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-28.5821  -0.3994   0.4230   1.4020   9.6815 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.13665    1.31470  -0.104    0.918    
+ExpAbsDen    0.77309    0.07434  10.400 3.89e-15 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.18 on 61 degrees of freedom
+Multiple R-squared:  0.6394,	Adjusted R-squared:  0.6335 
+F-statistic: 108.2 on 1 and 61 DF,  p-value: 3.893e-15
+\end{Soutput}
+\end{Schunk}
+\includegraphics{112515-valid-012}
+
+Now, how are the individual species doing?
+
+\includegraphics{112515-valid-013}
+\begin{Schunk}
+\begin{Sinput}
+>   sppSlopes
+\end{Sinput}
+\begin{Soutput}
+   species      sdlDen       saplDen    AdultDen     adultBA
+1     ABCO   1.0146872 -2.368110e-02 -0.04344119  0.23373399
+2     ABMA   8.2777967  5.680939e-01 -0.10842942 -0.22194417
+3     CADE  12.8171749  8.407172e-01  3.12673632  0.91760256
+4     PICO -13.5321395 -7.267092e-02 -0.22653448 -0.54226454
+5     PIJE   1.9136359  7.692643e-02  1.63411578  0.60914395
+6     PILA  12.0836268  7.511476e-01 -0.05931691 -0.06922849
+7     PIMO -15.3637140  2.811277e-02 -0.36350893  0.87032822
+8     PIPO   0.2800365  8.744458e-02  2.48287674  1.68145733
+9     QUCH          NA  1.973967e-16          NA          NA
+10    QUKE  14.3987423  1.166009e+00          NA          NA
+\end{Soutput}
+\end{Schunk}
+
+
+\section{Conclusions}
+
+So, in comparing these last two runs, there are some definite differences. The seedling density statistic is back down from where it was, but I think that's because the seedlings changed into saplings rather quickly.So what if we did the new one and dropped the old one? Kept the higher growth but lost the mortality?
+
+We should also do a run to increase STR to actually fix, not hide, the seed problem. 
+
+\end{document}
