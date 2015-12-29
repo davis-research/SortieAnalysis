@@ -2,7 +2,7 @@
 
 # READ ME
 
-This document describes the folder structure of SortieND-Output-Analysis. This folder is the dedicated workspace for analyzing SORTIE-ND outputs. The parameter files are not stored here, but can be accessed at [GitHub](https://www.github.com/ecology-rocks/SortieRuns).
+This document describes the folder structure of SortieND-Output-Analysis. This folder is the dedicated workspace for analyzing SORTIE-ND outputs. The parameter files are not stored here, but can be accessed at the [SortieRuns repository](https://www.github.com/ecology-rocks/SortieRuns). You can learn about how to create new .Rnw / PDF files on the SortieAnalysis [wiki](https://github.com/ecology-rocks/SortieAnalysis/wiki).
 
 ## How To Use This Folder
 
@@ -16,20 +16,31 @@ Under each Sweave folder, there will be summary files and an outfiles folder tha
 
 
 (SortieND-Output-Analysis)
+
 | README.md -- This file
+
 | SortieOutputRuns.Rproj -- RStudio project file, 
+
 | (0x0x15-Sweave) -- folder
+
 | | 0x0x15x-summary.Rnw -- the Sweave file used to generate the pdf
+
 | | 0x0x15x-summary.pdf -- a summary document of that particular model run
 
 | | (outfiles) -- folder
+
 | | | (orig / a / b ... / z) -- folder
+
 | | | | 0x0x15x-adultba.csv -- summary for entire model run by step/species
+
 | | | | 0x0x15x-adultdensity.csv -- summary for entire model run by step/species
+
 | | | | 0x0x15-SITE\_RUN.out (e.g., 081515-BBBPIPO\_1.out) -- orig SORTIE outputs
 
 | | | | (means) -- folder
+
 | | | | | SITE-AdultAbsBA.csv (e.g., BBBPIPO-AdultAbsBA.csv) -- site summaries
+
 | | | | | SITE-AdultAbsDen.csv -- site summaries
 
 ## What Is Sweave?
