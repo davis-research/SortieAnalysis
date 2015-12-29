@@ -3,13 +3,13 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 
-\title{Addding Seedling Allometry Values}
+\title{Validation Run}
 \author{Samantha L. Davis}
 
 \maketitle
 
 \section{Summary}
-This run is the first run in November. I kept the reduction of seed/ling mortality from the 103015 run, and added in a different allometric parameter for seedlings. The parameter is the slope of the relationship between diam10 and seedling height. The default parameter that the original program set was 0.03, when I ran ours, I actually found a value of about 0.22 across species. It didn't vary enough (plus or minus 0.02) for me to think that the differences were appreciable. That is the only change in this run.
+This run has four plots in it, and is the validation run for the model that I've built.
 
 <<echo=FALSE>>=
 ## load library
@@ -30,75 +30,75 @@ charname <- c("SdlAbsDen", "SaplAbsDen", "AdultAbsBA", "AdultAbsDen")
 store <- processTestPlot("CCRPIPO", filelocs[1], 0,
                   charactername=charname[1],
                  writefile=paste(filemeans[1], "/CCRPIPO-SdlAbsDen.csv", sep=""),
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 
 store <- processTestPlot("CCRPIPO", filelocs[1], 0,
                   charactername=charname[2],
                  writefile=paste(filemeans[1], "/CCRPIPO-SaplAbsDen.csv", sep=""),
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 
 store <- processTestPlot("CCRPIPO", filelocs[1], 0,
                   charactername=charname[3],
                  writefile=paste(filemeans[1], "/CCRPIPO-AdultAbsBA.csv", sep=""),
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 
 store <- processTestPlot("CCRPIPO", filelocs[1], 0,
                   charactername=charname[4],
                  writefile=paste(filemeans[1], "/CCRPIPO-AdultAbsDen.csv", sep=""),
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 
 ## CRCRPIPO
 store <- processTestPlot("CRCRPIPO", filelocs[1], 0,
                   charactername=charname[1],
                  writefile=paste(filemeans[1], "/CRCRPIPO-SdlAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("CRCRPIPO", filelocs[1], 0,
                   charactername=charname[2],
                  writefile=paste(filemeans[1], "/CRCRPIPO-SaplAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("CRCRPIPO", filelocs[1], 0,
                   charactername=charname[3],
                  writefile=paste(filemeans[1], "/CRCRPIPO-AdultAbsBA.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("CRCRPIPO", filelocs[1], 0,
                   charactername=charname[4],
                  writefile=paste(filemeans[1], "/CRCRPIPO-AdultAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 
 ## EMSLOPE
 store <- processTestPlot("EMSLOPE", filelocs[1], 0,
                   charactername=charname[1],
                  writefile=paste(filemeans[1], "/EMSLOPE-SdlAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("EMSLOPE", filelocs[1], 0,
                   charactername=charname[2],
                  writefile=paste(filemeans[1], "/EMSLOPE-SaplAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("EMSLOPE", filelocs[1], 0,
                   charactername=charname[3],
                  writefile=paste(filemeans[1], "/EMSLOPE-AdultAbsBA.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("EMSLOPE", filelocs[1], 0,
                   charactername=charname[4],
                  writefile=paste(filemeans[1], "/EMSLOPE-AdultAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 ## SUABCO
 store <- processTestPlot("SUABCO", filelocs[1], 0,
                   charactername=charname[1],
                  writefile=paste(filemeans[1], "/SUABCO-SdlAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("SUABCO", filelocs[1], 0,
                   charactername=charname[2],
                  writefile=paste(filemeans[1], "/SUABCO-SaplAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("SUABCO", filelocs[1], 0,
                   charactername=charname[3],
                  writefile=paste(filemeans[1], "/SUABCO-AdultAbsBA.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 store <- processTestPlot("SUABCO", filelocs[1], 0,
                   charactername=charname[4],
                  writefile=paste(filemeans[1], "/SUABCO-AdultAbsDen.csv", sep=""), 
-                 numsubplots = 3, subplotid=1)
+                 numsubplots = 3, subplotid=1, combineAdults=F)
 rm("store")
 @
 
@@ -395,11 +395,5 @@ Now, how are the individual species doing?
   sppSlopes
 @
 
-
-\section{Conclusions}
-
-So, in comparing these last two runs, there are some definite differences. The seedling density statistic is back down from where it was, but I think that's because the seedlings changed into saplings rather quickly.So what if we did the new one and dropped the old one? Kept the higher growth but lost the mortality?
-
-We should also do a run to increase STR to actually fix, not hide, the seed problem. 
 
 \end{document}
